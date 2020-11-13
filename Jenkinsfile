@@ -33,6 +33,7 @@ pipeline {
 
           stage("Docker build") {
               steps {
+                   print 'nagesh'
                     //sh "docker build -t leszko/calculator:${BUILD_TIMESTAMP} ."
                }
           }
