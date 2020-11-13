@@ -1,2 +1,0 @@
-# Calculatorproject
-Calculator project
