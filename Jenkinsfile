@@ -34,16 +34,16 @@ pipeline {
           stage("Docker build") {
               steps {
                    print 'nagesh'
-                    //sh "docker build -t leszko/calculator:${BUILD_TIMESTAMP} ."
+                    sh "docker build -t leszko/calculator:${BUILD_TIMESTAMP} ."
                }
           }
 
           stage("Docker login") {
               steps {
                    print 'nagesh'
-                   // withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker-hub-credentials',
-                            //   usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-                         //sh "docker login --username $USERNAME --password $PASSWORD"
+                   withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker-hub-credentials',
+                            usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+                         sh "docker login --username $USERNAME --password $PASSWORD"
                     }
                }
           }
@@ -51,44 +51,44 @@ pipeline {
           stage("Docker push") {
               steps {
                    print 'nagesh'
-                    //sh "docker push leszko/calculator:${BUILD_TIMESTAMP}"
+                      sh "docker push leszko/calculator:${BUILD_TIMESTAMP}"
                }
           }
 
           stage("Update version") {
               steps {
                    print 'nagesh'
-                   //sh "sed  -i 's/{{VERSION}}/${BUILD_TIMESTAMP}/g' calculator.yaml"
+                   sh "sed  -i 's/{{VERSION}}/${BUILD_TIMESTAMP}/g' calculator.yaml"
                }
           }
           
           stage("Deploy to staging") {
               steps {
                    print 'nagesh'
-                    //sh "kubectl config use-context staging"
-                    //sh "kubectl apply -f hazelcast.yaml"
-                   // sh "kubectl apply -f calculator.yaml"
+                    sh "kubectl config use-context staging"
+                    sh "kubectl apply -f hazelcast.yaml"
+                   sh "kubectl apply -f calculator.yaml"
                }
           }
 
           stage("Acceptance test") {
               steps {
                     sleep 60
-                   // sh "chmod +x acceptance-test.sh && ./acceptance-test.sh"
+                   sh "chmod +x acceptance-test.sh && ./acceptance-test.sh"
                }
           }
 
           stage("Release") {
                steps {
-                    //sh "kubectl config use-context production"
-                   // sh "kubectl apply -f hazelcast.yaml"
-                    //sh "kubectl apply -f calculator.yaml"
+                    sh "kubectl config use-context production"
+                   sh "kubectl apply -f hazelcast.yaml"
+                    sh "kubectl apply -f calculator.yaml"
                }
           }
           stage("Smoke test") {
               steps {
                   sleep 60
-                  //sh "chmod +x smoke-test.sh && ./smoke-test.sh"
+                  sh "chmod +x smoke-test.sh && ./smoke-test.sh"
               }
           }
      }
