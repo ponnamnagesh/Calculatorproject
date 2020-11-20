@@ -33,7 +33,7 @@ pipeline {
 
           stage("Docker build") {
                steps {
-                    sh "docker build -t nagesh/calculator:${BUILD_TIMESTAMP} ."
+                    sh "docker build -t nponnam/calculator:${BUILD_TIMESTAMP} ."
                }
           }
 
